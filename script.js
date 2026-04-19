@@ -137,8 +137,7 @@ const allAzkar = {
     text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا.", 
     count: 1, 
     note: "يُقال مرة واحدة في الصباح (بعد صلاة الفجر)" 
-    if (count === 0) {
-    showFinishMessage();
+
 }
 
 },
@@ -272,8 +271,7 @@ const allAzkar = {
     text: "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ.",
     count: 10,
     note: "من صلى عليّ حين يصبح عشراً وحين يمسي عشراً أدركته شفاعتي يوم القيامة"
-    if (count === 0) {
-    showFinishMessage();
+    
 }
 
 },
@@ -378,8 +376,7 @@ const allAzkar = {
     note: "اجعله آخر ما تقول قبل نومك؛ فمن قاله ومات من ليلته مات على الفطرة." 
 },
 
-if (count === 0) {
-    showFinishMessage();
+
 }
 
 
@@ -406,8 +403,7 @@ if (count === 0) {
     note: "عشر آيات من أواخر سورة آل عمران، يُسن قراءتها عند الاستيقاظ ." 
 },
 
-if (count === 0) {
-    showFinishMessage();
+
 }
 
     ],
@@ -432,8 +428,7 @@ if (count === 0) {
     count: 1, 
     note: "الدعاء في هذا الوقت لا يُرد." 
 },
-if (count === 0) {
-    showFinishMessage();
+
 }
 
     ],
@@ -449,9 +444,8 @@ if (count === 0) {
     count: 1, 
     note: "يُقال بعد الفراغ من الوضوء (من قاله فُتحت له أبواب الجنة الثمانية)." 
 
-    if (count === 0) {
-    showFinishMessage();
-}
+
+
 
 },
 
@@ -555,16 +549,154 @@ function count(element) {
     let current = parseInt(element.innerText);
     if (current > 0) {
         current--;
+// 1. تشغيل الإعدادات عند فتح التطبيق
+window.onload = function() {
+    const savedBg = localStorage.getItem('userBackground');
+    if (savedBg) {
+        document.body.style.backgroundImage = `url('${savedBg}')`;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center";
+        document.body.style.backgroundAttachment = "fixed";
+    }
+    setTimeout(applyFontSize, 100);
+};
+
+// 2. إدارة الألوان وحجم الخط
+let currentBgIndex = 0;
+let currentFontSize = parseInt(localStorage.getItem('userFontSize')) || 24;
+const backgrounds = ['h1.jpg', 'h2.jpg', 'h3.jpg', 'h4.jpg', 'h5.jpg', 'h6.jpg', 'h7.jpg', 'h8.jpg', 'h9.jpg', 'h10.jpg', 'h11.jpg', 'h12.jpg', 'h13.jpg'];
+
+function changeFontSize(action) {
+    if (action === 'increase' && currentFontSize < 50) currentFontSize += 2;
+    if (action === 'decrease' && currentFontSize > 16) currentFontSize -= 2;
+    applyFontSize();
+    localStorage.setItem('userFontSize', currentFontSize);
+}
+
+function applyFontSize() {
+    const azkarTexts = document.querySelectorAll('.card .text-content p');
+    azkarTexts.forEach(p => {
+        p.style.fontSize = currentFontSize + 'px';
+        p.style.lineHeight = "1.6";
+    });
+}
+
+// 3. وظائف التنقل بين الأقسام
+function loadAzkar(category) {
+    const listDiv = document.getElementById('azkar-list');
+    const categoriesDiv = document.getElementById('categories');
+    const backBtn = document.getElementById('back-btn');
+    const title = document.getElementById('page-title');
+
+    categoriesDiv.style.display = 'none';
+    listDiv.style.display = 'block';
+    backBtn.style.display = 'block';
+    listDiv.innerHTML = '';
+
+    const titles = {
+        morning: "أذكار الصباح", evening: "أذكار المساء", sleep: "أذكار النوم",
+        wakeup: "أذكار الاستيقاظ", adhan: "أذكار الأذان", wudu: "أذكار الوضوء",
+        majlis: "كفارة المجلس", prophet: "الصلاة على النبي"
+    };
+    title.innerText = titles[category] || "أذكار المسلم";
+
+    allAzkar[category].forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <div class="text-content">
+                <p>${item.text}</p>
+                <small style="color: #74F1D9; display:block; margin-top:10px;">${item.note}</small>
+            </div>
+            <div class="counter-box" onclick="count(this)">${item.count}</div>
+        `;
+        listDiv.appendChild(card);
+    });
+    setTimeout(applyFontSize, 50);
+}
+
+// 4. العداد والتحقق من نهاية الأذكار (اللمسة الذكية)
+function count(element) {
+    let current = parseInt(element.innerText);
+    if (current > 0) {
+        current--;
         element.innerText = current;
+        playTick();
+        
         if (current === 0) {
             element.classList.add('done');
             element.style.opacity = "0.5";
+            element.style.background = "#16a085";
+            
+            // بيشيك هل ده كان آخر ذكر في القسم ولا لسه فيه تاني
+            checkIfAllFinished();
         }
-        playTick();
     }
 }
 
-// 5. الرجوع والتبديل
+function checkIfAllFinished() {
+    const allCounters = document.querySelectorAll('.counter-box');
+    let allDone = true;
+
+    allCounters.forEach(counter => {
+        if (parseInt(counter.innerText) > 0) {
+            allDone = false;
+        }
+    });
+
+    if (allDone) {
+        // تأخير بسيط 600 مللي ثانية عشان تكون الحركة سلسة بعد آخر تكة
+        setTimeout(showFinishMessage, 600);
+    }
+}
+
+// 5. الرسالة المزخرفة بتأثير "انسيابي"
+function showFinishMessage() {
+    if(document.getElementById('success-overlay')) return;
+
+    const overlay = document.createElement('div');
+    overlay.id = "success-overlay";
+    // التصميم اللي بيخلي الخلفية تغمق شوية والرسالة تظهر في النص
+    overlay.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6); display: flex; align-items: center;
+        justify-content: center; z-index: 10000; opacity: 0; transition: opacity 0.6s ease;
+    `;
+
+    overlay.innerHTML = `
+        <div id="success-popup" style="
+            background: #fff; padding: 30px; border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4); text-align: center;
+            border: 3px solid #d4af37; width: 85%; max-width: 320px;
+            transform: translateY(20px); transition: transform 0.6s ease;
+        ">
+            <h2 style="color: #2c3e50; margin-bottom: 10px;">✨ تقبل الله منك ✨</h2>
+            <p style="color: #16a085; font-size: 22px; font-weight: bold;">🌸 بارك الله فيكِ 🌸</p>
+            <button onclick="closePopup()" style="
+                background: linear-gradient(135deg, #d4af37, #b8860b);
+                color: white; border: none; padding: 12px 30px;
+                border-radius: 15px; cursor: pointer; margin-top: 20px;
+                font-weight: bold; width: 100%; font-size: 18px;
+            ">آمين</button>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+
+    // تفعيل تأثير الظهور السلس
+    setTimeout(() => {
+        overlay.style.opacity = "1";
+        document.getElementById('success-popup').style.transform = "translateY(0)";
+    }, 50);
+}
+
+function closePopup() {
+    const overlay = document.getElementById('success-overlay');
+    overlay.style.opacity = "0";
+    setTimeout(() => overlay.remove(), 600);
+}
+
+// 6. باقي الوظائف (الخلفية، السيم، القرآن)
 function showCategories() {
     document.getElementById('categories').style.display = 'grid';
     document.getElementById('azkar-list').style.display = 'none';
@@ -585,7 +717,12 @@ function toggleTheme() {
     btn.innerText = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
 }
 
-// 6. صوت التكة والقرآن
+function openQuranMenu() {
+    let driveLink = "https://drive.google.com/file/d/1m74j0ALe6rmrEOWd9T6d7046wc0NHPKa/view?usp=drivesdk";
+    let directLink = driveLink.split('/view')[0] + "/preview";
+    window.open(directLink, "_blank");
+}
+
 let audioCtx = null;
 function playTick() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -599,42 +736,3 @@ function playTick() {
     osc.start();
     osc.stop(audioCtx.currentTime + 0.1);
 }
-function openQuranMenu() {
-    // حطي الرابط اللي نسختيه بين علامات التنصيص هنا
-    let driveLink = "https://drive.google.com/file/d/1m74j0ALe6rmrEOWd9T6d7046wc0NHPKa/view?usp=drivesdk";
-    
-    // السطر ده هو اللي بيشيل رسالة "اختيار الحساب" ويفتح الملف كصفحة ويب
-    let directLink = driveLink.split('?')[0] + "/preview";
-    
-    window.open(directLink, "_blank");
-}
-
-function showFinishMessage() {
-    // إنشاء عنصر الرسالة
-    const msg = document.createElement('div');
-    msg.innerHTML = `
-        <div id="success-popup" style="
-            position: fixed; top: 50%; left: 50%; 
-            transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            text-align: center; z-index: 10000;
-            border: 2px solid #d4af37;
-            animation: fadeIn 0.5s ease-out;
-        ">
-            <h2 style="color: #2c3e50; margin-bottom: 10px;">✨ تقبل الله منك ✨</h2>
-            <p style="color: #16a085; font-size: 20px; font-weight: bold;">🌸 بارك الله فيكِ 🌸</p>
-            <button onclick="this.parentElement.parentElement.remove()" style="
-                background: #d4af37; color: white; border: none;
-                padding: 10px 25px; border-radius: 10px; cursor: pointer;
-                margin-top: 15px; font-weight: bold;
-            ">آمين</button>
-        </div>
-    `;
-    document.body.appendChild(msg);
-}
-
-
-
-

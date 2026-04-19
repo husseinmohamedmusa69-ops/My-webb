@@ -583,6 +583,31 @@ function openQuranMenu() {
     window.open(directLink, "_blank");
 }
 
+function showFinishMessage() {
+    // إنشاء عنصر الرسالة
+    const msg = document.createElement('div');
+    msg.innerHTML = `
+        <div id="success-popup" style="
+            position: fixed; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center; z-index: 10000;
+            border: 2px solid #d4af37;
+            animation: fadeIn 0.5s ease-out;
+        ">
+            <h2 style="color: #2c3e50; margin-bottom: 10px;">✨ تقبل الله منك ✨</h2>
+            <p style="color: #16a085; font-size: 20px; font-weight: bold;">🌸 بارك الله فيكِ 🌸</p>
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                background: #d4af37; color: white; border: none;
+                padding: 10px 25px; border-radius: 10px; cursor: pointer;
+                margin-top: 15px; font-weight: bold;
+            ">آمين</button>
+        </div>
+    `;
+    document.body.appendChild(msg);
+}
 
 
 

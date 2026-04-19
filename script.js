@@ -575,12 +575,13 @@ function playTick() {
 }
 
 function openQuranMenu() {
-    // التعديل ده بيخلي المتصفح يحاول يفتح الملف في نافذة جديدة
-    let link = document.createElement('a');
-    link.href = 'quran.pdf';
-    link.target = '_blank';
-    link.click();
+    // الكود ده بيجيب رابط الموقع بتاعك أوتوماتيك ويضيف عليه اسم الملف
+    const url = window.location.origin + window.location.pathname.replace('index.html', '') + 'quran.pdf';
+    
+    // بيفتح الملف في صفحة جديدة تماماً عشان الموبايل ميعترضش
+    window.open(url, '_blank');
 }
+
 
 
 

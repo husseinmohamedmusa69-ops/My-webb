@@ -574,12 +574,9 @@ function playTick() {
     osc.stop(audioCtx.currentTime + 0.1);
 }
 
+
 function openQuranMenu() {
-    // الكود ده بيجيب رابط الموقع بتاعك أوتوماتيك ويضيف عليه اسم الملف
-    const url = window.location.origin + window.location.pathname.replace('index.html', '') + 'quran.pdf';
-    
-    // بيفتح الملف في صفحة جديدة تماماً عشان الموبايل ميعترضش
-    window.open(url, '_blank');
+    window.open("https://drive.google.com/file/d/1m74j0ALe6rmrEOWd9T6d7046wc0NHPKa/view?usp=drivesdk", "_blank");
 }
 
 

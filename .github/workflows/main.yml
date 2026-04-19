@@ -1,15 +1,35 @@
-name: Build APK
+name: Build APK Final
 on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Source
         uses: actions/checkout@v3
 
-      - name: Simple Build APK
-        uses: pavi2410/pwa-to-apk-action@v1
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
-          # هنا نضع رابط الموقع أو المسار، لكننا سنستخدم أداة أبسط
-          url: 'https://google.com' 
-          # ملاحظة: إذا لم ينجح هذا، سننتقل فوراً للخطة ب
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Build Android APK
+        run: |
+          npm install -g cordova
+          # صنع مشروع جديد في مجلد مؤقت
+          cordova create temp_app com.hussein.app "MyZekr"
+          cd temp_app
+          cordova platform add android
+          # نقل ملفاتك (الصور والـ HTML) إلى داخل المشروع الجديد
+          rm -rf www/*
+          cp -r ../* www/ || true
+          # حذف ملف الـ yaml نفسه من داخل مجلد التطبيق لتجنب المشاكل
+          rm -rf www/.github
+          # البدء في البناء
+          cordova build android --no-telemetry
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: App-Ready
+          path: temp_app/platforms/android/app/build/outputs/apk/debug/app-debug.apk

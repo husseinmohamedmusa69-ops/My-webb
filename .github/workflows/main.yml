@@ -1,25 +1,11 @@
-name: Build Android APK
+name: Build APK
 on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build Android
-        uses: t00m/action-bubblewrap@v1.1.0
+      - uses: actions/checkout@v3
+      - name: Build Android APK
+        uses: GearPlug/cordova-action@v1.1.0
         with:
-          # إعدادات التطبيق الأساسية
-          url: 'https://google.com' # لا تقلقي، هذا الكود سيأخذ ملفاتك المحلية
-          name: 'MyZekrApp'
-          launcherName: 'Zekr'
-          packageId: 'com.hussein.zekr'
-          backgroundColor: '#ffffff'
-          themeColor: '#455a64'
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-release-apk
-          path: ./*.apk
+          command: build android

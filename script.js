@@ -575,7 +575,8 @@ function playTick() {
 }
 
 function openQuranMenu() {
-    window.open('quran.pdf', '_blank');
+    window.location.href = "quran.pdf";
 }
+
 
 

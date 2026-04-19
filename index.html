@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الأذكار</title>
+    <link rel="stylesheet" href="master.css">
+</head>
+<body class="dark-mode"> 
+    <div class="app-container">
+        <header>
+            <div class="top-bar">
+                <button onclick="changeAppBackground()" class="bg-changer-btn" title="تغيير الخلفية">🎨</button>
+                <button id="theme-toggle" onclick="toggleTheme()">☀️</button>
+                
+                <div class="font-controls" style="display: inline-flex; gap: 5px;">
+                    <button onclick="changeFontSize('increase')" class="bg-changer-btn" style="font-size: 16px;">A+</button>
+                    <button onclick="changeFontSize('decrease')" class="bg-changer-btn" style="font-size: 16px;">A-</button>
+                </div>
+
+                <h1 id="page-title">أذكار المسلم</h1>
+                <button id="back-btn" onclick="showCategories()" style="display:none;">رجوع</button>
+            </div>
+        </header>
+
+        <div id="categories" class="categories-grid">
+            
+            <div class="cat-btn quran-btn-main" onclick="openQuranMenu()">
+                <div style="font-size: 30px; margin-bottom: 5px;"></div>
+                <span>القرآن الكريم</span>
+            </div>
+
+            <div class="cat-btn" onclick="loadAzkar('morning')">أذكار الصباح</div>
+            <div class="cat-btn" onclick="loadAzkar('evening')">أذكار المساء</div>
+            <div class="cat-btn" onclick="loadAzkar('sleep')">أذكار النوم</div>
+            <div class="cat-btn" onclick="loadAzkar('wakeup')">الاستيقاظ من النوم</div>
+            <div class="cat-btn" onclick="loadAzkar('adhan')">أذكار الأذان</div>
+            <div class="cat-btn" onclick="loadAzkar('wudu')">أذكار الوضوء</div>
+            <div class="cat-btn" onclick="loadAzkar('majlis')">كفارة المجلس</div>
+            <div class="cat-btn" onclick="loadAzkar('prophet')">فضل الصلاة على النبي</div>
+        </div>
+
+        <div id="azkar-list" class="cards-container" style="display:none;">
+        </div>
+    </div>
+
+    <audio id="click-sound" src="https://www.soundjay.com/buttons/button-16.mp3" preload="auto"></audio>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+:root {
+    --bg-color: #f5f5f5;
+    --card-bg: rgba(255, 255, 255, 0.15);
+    --text-color: #ffffff;
+    --primary-color: #2e7d32;
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode {
+    --bg-color: #121212;
+    --card-bg: rgba(0, 0, 0, 0.4);
+    --text-color: #ffffff;
+    --primary-color: #4caf50;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    transition: background-image 0.5s ease-in-out;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.app-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* --- شريط الأدوات العلوي المطور --- */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px; /* مسافة تحت الشريط */
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* المسافات بين الأزرار العلوية */
+.controls-group {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* مسافة معقولة ومريحة بين 🎨 و ☀️ والخط */
+    direction: rtl;
+}
+
+.font-controls {
+    display: flex;
+    gap: 10px; /* مسافة بين A+ و A- */
+}
+
+/* تنسيق الأزرار العلوية لتكون دائرية ونظيفة */
+.bg-changer-btn, #theme-toggle, .font-btn {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: 0.3s;
+    outline: none;
+}
+
+.bg-changer-btn:hover, #theme-toggle:hover, .font-btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.1);
+}
+
+/* العنوان في المنتصف */
+#page-title {
+    font-size: 18px;
+    color: #74F1D9;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    margin: 0;
+    text-align: center;
+}
+
+/* زر الرجوع */
+#back-btn {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* --- شبكة الأذكار --- */
+.categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+}
+
+.cat-btn {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(15px);
+    padding: 22px 10px;
+    text-align: center;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid var(--glass-border) !important;
+    font-weight: bold;
+    transition: 0.3s all ease;
+    color: white;
+    font-size: 17px;
+}
+
+.cat-btn:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* كارت القرآن المميز */
+.quran-btn-main {
+    grid-column: 1 / span 2;
+    padding: 35px 10px;
+    border: 1.5px solid rgba(116, 241, 217, 0.4) !important;
+    background: rgba(116, 241, 217, 0.05) !important;
+    font-size: 20px;
+}
+
+/* --- الكروت والعدادات --- */
+.card {
+    background: rgba(0, 0, 0, 0.25) !important;
+    backdrop-filter: blur(25px);
+    border-radius: 25px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.text-content { 
+    padding: 30px 20px; 
+    text-align: center; 
+}
+
+.text-content p {
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.counter-box {
+    background: var(--primary-color);
+    color: white;
+    padding: 18px;
+    text-align: center;
+    font-size: 2rem;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+}
+
+.counter-box:active {
+    filter: brightness(1.2);
+    transform: scale(0.98);
+}
+
+.done {
+    background: #555 !important;
+    opacity: 0.7;
+}

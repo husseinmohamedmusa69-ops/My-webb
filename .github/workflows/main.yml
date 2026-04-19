@@ -1,25 +1,25 @@
-name: Build APK
+name: Build Android APK
 on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: setup node
-        uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build Android
+        uses: t00m/action-bubblewrap@v1.1.0
         with:
-          node-version: 16
-      - name: install cordova
-        run: npm install -g cordova
-      - name: create android project
-        run: |
-          cordova create myapp com.hussein.app MyApp
-          cp -r * myapp/www/ || true
-          cd myapp
-          cordova platform add android
-          cordova build android
-      - name: upload apk
+          # إعدادات التطبيق الأساسية
+          url: 'https://google.com' # لا تقلقي، هذا الكود سيأخذ ملفاتك المحلية
+          name: 'MyZekrApp'
+          launcherName: 'Zekr'
+          packageId: 'com.hussein.zekr'
+          backgroundColor: '#ffffff'
+          themeColor: '#455a64'
+
+      - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: my-app-apk
-          path: myapp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+          name: app-release-apk
+          path: ./*.apk
